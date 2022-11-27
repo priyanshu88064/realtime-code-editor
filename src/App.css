@@ -1,0 +1,79 @@
+*{
+    box-sizing: border-box;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+html,body {
+    height: 100%;
+    margin: 0;
+}
+
+#root{
+    height: 100%;
+}
+
+.controller{
+    display: flex;
+    flex-direction: column;
+
+    /* background-color: gold; */
+    height: 100%;
+    overflow: hidden;
+}
+
+.HeadBar{
+    /* background-color: aqua; */
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+.editor{
+    display: flex;
+    justify-content: space-between;
+
+    /* background-color: blueviolet; */
+    height: 100%;
+}
+.maineditor{
+    height: 100%;
+    width: 69%;
+
+    display: flex;
+    flex-direction: column;
+}
+.ed1{
+    background-color:rgb(222, 219, 219) ;
+    border: 1px solid black;
+    text-align: center;
+    font-weight:bolder;
+}
+.ed2{
+    height: 100%;
+}
+.ed3{
+    background-color:rgb(222, 219, 219) ;
+    border: 1px solid black;
+    text-align: center;
+    font-weight:bolder;
+}
+.ed4{
+    height: 100%;
+}
+.inout{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 30%;
+    height: 100%;
+}
+.input{
+    height: 39%;
+    display: flex;
+    flex-direction: column;
+}
+.output{
+    height: 60%;
+}
+
+button{
+    margin-right: 10px;
+}
