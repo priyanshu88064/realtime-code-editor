@@ -11,7 +11,6 @@ function Controller() {
   const [lang, setLang] = useState("cpp");
 
   const themeMap = useMemo(() => {
-    console.log("theme map 1 created");
     return new Map([
       [sublime, "Sublime"],
       [androidstudio, "AndroidStudio"],
@@ -22,7 +21,6 @@ function Controller() {
   }, []);
 
   const themeMap2 = useMemo(() => {
-    console.log("theme map 2 created");
     return new Map([
       ["Sublime", sublime],
       ["AndroidStudio", androidstudio],
@@ -46,15 +44,30 @@ function Controller() {
       />
 
       <div className="editor">
-        <Editor themes={theme} lang={lang} classN="maineditor" />
+        <Editor
+          themes={theme}
+          lang={lang}
+          classN="maineditor"
+          readOnly={false}
+        />
         <div className="inout">
           <div className="input">
             <div className="ed1">INPUT</div>
-            <Editor themes={theme} classN="ed2" lang="textile" />
+            <Editor
+              themes={theme}
+              classN="ed2"
+              lang="textile"
+              readOnly={false}
+            />
           </div>
           <div className="output">
             <div className="ed3">OUTPUT</div>
-            <Editor themes={theme} classN="ed4" lang="textile" />
+            <Editor
+              themes={theme}
+              classN="ed4"
+              lang="textile"
+              readOnly={true}
+            />
           </div>
         </div>
       </div>

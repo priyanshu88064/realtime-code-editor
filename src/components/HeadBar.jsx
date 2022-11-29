@@ -3,7 +3,7 @@ import React from "react";
 function HeadBar({ currTheme, setThemeHandler, currLang, setLangHandler }) {
   return (
     <span className="HeadBar">
-      <button type="button" className="btn btn-secondary">
+      <button type="button" className="btn btn-primary">
         Run
       </button>
 
@@ -37,6 +37,20 @@ function HeadBar({ currTheme, setThemeHandler, currLang, setLangHandler }) {
         <option value="java">Java</option>
         <option value="rust">Rust</option>
       </select>
+      <button
+        type="button"
+        className="mt-1 btn btn-danger btn-sm"
+        style={{ float: "right" }}
+      >
+        Status - Running
+      </button>
+      <button
+        type="button"
+        className="mt-1 btn btn-primary btn-sm"
+        style={{ float: "right" }}
+      >
+        Copy Code
+      </button>
     </span>
   );
 }
