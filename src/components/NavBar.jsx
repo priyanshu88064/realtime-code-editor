@@ -10,10 +10,10 @@ function NavBar() {
         </Link>
       </li>
       <li>
-        <Link to="/">Create Room</Link>
+        <Link to="/create">Create Room</Link>
       </li>
       <li>
-        <Link to="/">Join Room</Link>
+        <Link to="/join">Join Room</Link>
       </li>
     </ul>
   );

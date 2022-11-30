@@ -1,14 +1,39 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useMemo, useState, useEffect } from "react";
 import HeadBar from "./HeadBar";
 import Editor from "./Editor";
 import { sublime } from "@uiw/codemirror-theme-sublime";
 import { androidstudio } from "@uiw/codemirror-theme-androidstudio";
 import { dracula } from "@uiw/codemirror-theme-dracula";
 import { xcodeLight, xcodeDark } from "@uiw/codemirror-theme-xcode";
+import { useParams } from "react-router-dom";
+import io from "socket.io-client";
+
+const socket = io.connect("http://192.168.43.125:80");
 
 function Controller() {
   const [theme, setTheme] = useState(xcodeDark);
   const [lang, setLang] = useState("cpp");
+  const [editorData, setEditorData] = useState("");
+  const { roomId } = useParams();
+
+  useMemo(() => {
+    return socket.emit("join", roomId);
+  }, []);
+
+  useEffect(() => {
+    socket.on("getEditorData", (data) => {
+      setEditorData(data);
+    });
+    return () => {
+      socket.off("getEditorData");
+      console.log("closed in react");
+    };
+  }, []);
+
+  function handleChange(data) {
+    if (data === editorData) return;
+    socket.emit("sendEditorData", data, roomId);
+  }
 
   const themeMap = useMemo(() => {
     return new Map([
@@ -49,6 +74,9 @@ function Controller() {
           lang={lang}
           classN="maineditor"
           readOnly={false}
+          setEditorData={setEditorData}
+          handleChange={handleChange}
+          editorData={editorData}
         />
         <div className="inout">
           <div className="input">
