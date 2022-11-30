@@ -1,18 +1,19 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 function NavBar() {
   return (
     <ul className="NavBar">
       <li>
-        <a className="active" href="#">
+        <Link className="active" to="/">
           Home
-        </a>
+        </Link>
       </li>
       <li>
-        <a href="#">Create Room</a>
+        <Link to="/">Create Room</Link>
       </li>
       <li>
-        <a href="#">Join Room</a>
+        <Link to="/">Join Room</Link>
       </li>
     </ul>
   );

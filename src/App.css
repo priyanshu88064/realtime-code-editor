@@ -187,3 +187,33 @@ li a:hover {
 .user-name:hover{
     background-color: rgb(117, 213, 117);
 }
+.sec{
+    text-align: center;
+    font-weight: 400;
+    font-style: italic;
+    background-color: rgb(224, 224, 224);
+    padding:10px 0;
+}
+.sec h2{
+    font-weight: 300;
+    font-style: normal;
+}
+.enter-room{
+    display: flex;
+    width: 250px;
+    margin: auto;
+    margin-top: 5%;
+}
+.enter-room button{
+    margin-left: 10px;
+}
+.create-room{
+    text-align: center;
+    margin-top: 4px;
+}
+.create-room button{
+    width: 240px;
+}
+.or{
+    text-align: center;
+}
