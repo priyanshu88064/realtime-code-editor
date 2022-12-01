@@ -10,7 +10,7 @@ function EnterRoom({ setUserName }) {
       className="enter-room"
       onSubmit={(e) => {
         e.preventDefault();
-        navigate("/editor/" + roomId,{replace:true});
+        navigate("/editor/" + roomId);
       }}
     >
       <input

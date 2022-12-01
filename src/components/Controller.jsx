@@ -6,10 +6,7 @@ import { androidstudio } from "@uiw/codemirror-theme-androidstudio";
 import { dracula } from "@uiw/codemirror-theme-dracula";
 import { xcodeLight, xcodeDark } from "@uiw/codemirror-theme-xcode";
 import { useParams } from "react-router-dom";
-import io from "socket.io-client";
-
-// const socket = io.connect("http://192.168.43.125:80"); // for locat network
-const socket = io.connect("http://localhost:80");
+import skt from "../sockets";
 
 function Controller({ userName, setAllUsers }) {
   const [theme, setTheme] = useState(xcodeDark);
@@ -17,35 +14,32 @@ function Controller({ userName, setAllUsers }) {
   const [editorData, setEditorData] = useState("");
   const { roomId } = useParams();
 
-  useMemo(() => {
-    console.log("emit new");
-    return socket.emit("join", roomId, userName);
-  }, []);
-
   useEffect(() => {
-    socket.off("getEditorData");
-    socket.on("getEditorData", (data) => {
-      setEditorData(data);
+    const socket = skt();
+
+    socket.emit("join", roomId, userName);
+
+    socket.on("newjoin", (newUser, allUsers) => {
+      setAllUsers(allUsers);
     });
 
-    socket.off("sync");
-    socket.on("sync", (data) => {
-      console.log("synced : ", data);
-      setAllUsers(data);
+    socket.on("leave", (user) => {
+      setAllUsers((prev) => {
+        return [...prev].filter((name) => name !== user);
+      });
     });
 
     return () => {
-      console.log("closed in react");
-      socket.off("getEditorData");
-      socket.off("sync");
-      socket.emit("leave", roomId, userName);
+      socket.disconnect();
+      socket.off("newjoin");
+      socket.off("leave");
     };
   }, []);
 
-  function handleChange(data) {
-    if (data === editorData) return;
-    socket.emit("sendEditorData", data, roomId);
-  }
+  // function handleChange(data) {
+  //   if (data === editorData) return;
+  //   socket.emit("sendEditorData", data, roomId);
+  // }
 
   const themeMap = useMemo(() => {
     return new Map([
@@ -86,9 +80,9 @@ function Controller({ userName, setAllUsers }) {
           lang={lang}
           classN="maineditor"
           readOnly={false}
-          setEditorData={setEditorData}
-          handleChange={handleChange}
-          editorData={editorData}
+          // setEditorData={setEditorData}
+          // handleChange={handleChange}
+          // editorData={editorData}
         />
         <div className="inout">
           <div className="input">
