@@ -8,25 +8,37 @@ import { xcodeLight, xcodeDark } from "@uiw/codemirror-theme-xcode";
 import { useParams } from "react-router-dom";
 import io from "socket.io-client";
 
-const socket = io.connect("http://192.168.43.125:80");
+// const socket = io.connect("http://192.168.43.125:80"); // for locat network
+const socket = io.connect("http://localhost:80");
 
-function Controller() {
+function Controller({ userName, setAllUsers }) {
   const [theme, setTheme] = useState(xcodeDark);
   const [lang, setLang] = useState("cpp");
   const [editorData, setEditorData] = useState("");
   const { roomId } = useParams();
 
   useMemo(() => {
-    return socket.emit("join", roomId);
+    console.log("emit new");
+    return socket.emit("join", roomId, userName);
   }, []);
 
   useEffect(() => {
+    socket.off("getEditorData");
     socket.on("getEditorData", (data) => {
       setEditorData(data);
     });
+
+    socket.off("sync");
+    socket.on("sync", (data) => {
+      console.log("synced : ", data);
+      setAllUsers(data);
+    });
+
     return () => {
-      socket.off("getEditorData");
       console.log("closed in react");
+      socket.off("getEditorData");
+      socket.off("sync");
+      socket.emit("leave", roomId, userName);
     };
   }, []);
 

@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import CreateRoom from "./CreateRoom";
 import EnterRoom from "./EnterRoom";
 
-function Head() {
+function Head({ setUserName }) {
   return (
     <div className="home">
       <div className="mb-5 sec">
@@ -14,9 +14,9 @@ function Head() {
           themes.
         </div>
       </div>
-      <EnterRoom />
+      <EnterRoom setUserName={setUserName} />
       <div className="mt-2 or">OR</div>
-      <CreateRoom />
+      <CreateRoom setUserName={setUserName} />
     </div>
   );
 }

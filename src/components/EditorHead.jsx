@@ -1,15 +1,17 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Controller from "./Controller";
 import ActiveUsers from "./ActiveUsers";
 import NameBar from "./NameBar";
 
-function EditorHead() {
+function EditorHead({ userName }) {
+  const [allUsers, setAllUsers] = useState([userName]);
+
   return (
     <>
       <NameBar />
       <div className="chota-wrapper">
-        <ActiveUsers />
-        <Controller />
+        <ActiveUsers allUsers={allUsers} />
+        <Controller userName={userName} setAllUsers={setAllUsers} />
       </div>
     </>
   );
