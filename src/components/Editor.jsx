@@ -7,9 +7,12 @@ function Editor({
   lang,
   classN,
   readOnly,
+  socket,
   setEditorData,
-  handleChange,
   editorData,
+  setInputData,
+  inputData,
+  roomId,
 }) {
   if (editorData == null) {
     editorData = "";
@@ -18,16 +21,19 @@ function Editor({
     <CodeMirror
       className={classN}
       style={{ fontSize: "13px" }}
-      value={editorData}
+      value={setEditorData !== null ? editorData : inputData}
       theme={themes}
       extensions={[loadLanguage(lang)]}
       height="100%"
       readOnly={readOnly}
       onChange={(value) => {
-        if (setEditorData !== null) {
+        if (setEditorData !== null && editorData !== value) {
           setEditorData(value);
+          socket.current.emit("codechange", value, roomId);
+        } else if (setInputData !== null && inputData !== value) {
+          setInputData(value);
+          socket.current.emit("inputchange", value, roomId);
         }
-        handleChange(value);
       }}
     />
   );

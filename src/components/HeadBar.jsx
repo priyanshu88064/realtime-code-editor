@@ -1,7 +1,16 @@
 import React, { useState } from "react";
-// import "animate.css";
+import Notify from "./notification";
 
-function HeadBar({ currTheme, setThemeHandler, currLang, setLangHandler }) {
+function HeadBar({
+  currTheme,
+  setThemeHandler,
+  currLang,
+  setLangHandler,
+  socket,
+  roomId,
+  userName,
+  editorData,
+}) {
   return (
     <span className="HeadBar">
       <button type="button" className="btn btn-primary">
@@ -27,7 +36,9 @@ function HeadBar({ currTheme, setThemeHandler, currLang, setLangHandler }) {
         name="lang"
         id="lang"
         onChange={(e) => {
+          if (currLang === e.target.value) return;
           setLangHandler(e.target.value);
+          socket.current.emit("langchange", e.target.value, userName, roomId);
         }}
         value={currLang}
       >
@@ -49,6 +60,10 @@ function HeadBar({ currTheme, setThemeHandler, currLang, setLangHandler }) {
         type="button"
         className="mt-1 btn btn-primary btn-sm"
         style={{ float: "right" }}
+        onClick={() => {
+          window.navigator.clipboard.writeText(editorData);
+          Notify("Code Copied Successfully!", "success");
+        }}
       >
         Copy Code
       </button>

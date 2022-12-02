@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useEffect } from "react";
+import React, { useMemo, useState, useEffect, useRef } from "react";
 import HeadBar from "./HeadBar";
 import Editor from "./Editor";
 import { sublime } from "@uiw/codemirror-theme-sublime";
@@ -7,39 +7,61 @@ import { dracula } from "@uiw/codemirror-theme-dracula";
 import { xcodeLight, xcodeDark } from "@uiw/codemirror-theme-xcode";
 import { useParams } from "react-router-dom";
 import skt from "../sockets";
+import Notify from "./notification";
 
 function Controller({ userName, setAllUsers }) {
   const [theme, setTheme] = useState(xcodeDark);
   const [lang, setLang] = useState("cpp");
   const [editorData, setEditorData] = useState("");
+  const [inputData, setInputData] = useState("");
   const { roomId } = useParams();
+  const socket = useRef(null);
 
   useEffect(() => {
-    const socket = skt();
+    socket.current = skt();
 
-    socket.emit("join", roomId, userName);
+    socket.current.emit("join", roomId, userName);
 
-    socket.on("newjoin", (newUser, allUsers) => {
-      setAllUsers(allUsers);
+    socket.current.on("codechange", (c) => {
+      setEditorData(c);
+    });
+    socket.current.on("inputchange", (c) => {
+      setInputData(c);
+    });
+    socket.current.on("langchange", (lang, user) => {
+      if (user) {
+        Notify(user + " has Changed the Language", "default");
+      }
+      setLang(lang);
     });
 
-    socket.on("leave", (user) => {
+    socket.current.on("leave", (user) => {
+      Notify(user + " has Left the Room.", "danger");
       setAllUsers((prev) => {
         return [...prev].filter((name) => name !== user);
       });
     });
 
     return () => {
-      socket.disconnect();
-      socket.off("newjoin");
-      socket.off("leave");
+      socket.current.disconnect();
+      socket.current.off("newjoin");
+      socket.current.off("leave");
+      socket.current.off("codechange");
+      socket.current.off("inputchange");
     };
   }, []);
 
-  // function handleChange(data) {
-  //   if (data === editorData) return;
-  //   socket.emit("sendEditorData", data, roomId);
-  // }
+  useEffect(() => {
+    socket.current.off("newjoin");
+
+    socket.current.on("newjoin", (newUser, allUsers, id) => {
+      setAllUsers(allUsers);
+      if (userName !== newUser) {
+        Notify(newUser + " Joined the Room.", "success");
+        socket.current.emit("sync", editorData, inputData, lang, id);
+      }
+    });
+  }, [editorData, inputData, lang]);
 
   const themeMap = useMemo(() => {
     return new Map([
@@ -72,6 +94,10 @@ function Controller({ userName, setAllUsers }) {
         setThemeHandler={setThemeHandler}
         currLang={lang}
         setLangHandler={setLang}
+        socket={socket}
+        roomId={roomId}
+        userName={userName}
+        editorData={editorData}
       />
 
       <div className="editor">
@@ -80,9 +106,12 @@ function Controller({ userName, setAllUsers }) {
           lang={lang}
           classN="maineditor"
           readOnly={false}
-          // setEditorData={setEditorData}
-          // handleChange={handleChange}
-          // editorData={editorData}
+          socket={socket}
+          setEditorData={setEditorData}
+          editorData={editorData}
+          setInputData={null}
+          inputData={inputData}
+          roomId={roomId}
         />
         <div className="inout">
           <div className="input">
@@ -92,6 +121,12 @@ function Controller({ userName, setAllUsers }) {
               classN="ed2"
               lang="textile"
               readOnly={false}
+              socket={socket}
+              setEditorData={null}
+              editorData={editorData}
+              setInputData={setInputData}
+              inputData={inputData}
+              roomId={roomId}
             />
           </div>
           <div className="output">
