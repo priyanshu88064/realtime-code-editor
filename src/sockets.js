@@ -1,10 +1,13 @@
 import io from "socket.io-client";
 
-const s1 = "http://localhost:80";
-// const s2 = "http://192.168.43.125:80";
-
 const skt = ()=>{
-    return io(s1);
+    if(process.env.NODE_ENV==="development"){
+        return io("http://192.168.204.125");
+        // return io(process.env.REACT_APP_SER_LOC);
+    }
+    else{
+        return io(process.env.REACT_APP_SER_PRO);
+    }
 }
 
 export default skt;

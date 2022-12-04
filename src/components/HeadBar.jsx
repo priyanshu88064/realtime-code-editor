@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import Notify from "./notification";
 
 function HeadBar({
@@ -10,10 +10,24 @@ function HeadBar({
   roomId,
   userName,
   editorData,
+  status,
+  runCode,
+  setOutData,
 }) {
+  let statusClass = "mt-1 btn btn-sm ";
+  if (status === "Idle") statusClass += "btn-success";
+  else statusClass += "btn-danger";
+
   return (
     <span className="HeadBar">
-      <button type="button" className="btn btn-primary">
+      <button
+        type="button"
+        className="btn btn-primary"
+        onClick={() => {
+          setOutData("Running...");
+          runCode();
+        }}
+      >
         Run
       </button>
 
@@ -48,13 +62,12 @@ function HeadBar({
         <option value="javascript">Javascript</option>
         <option value="java">Java</option>
         <option value="rust">Rust</option>
+        <option value="kotlin">Kotlin</option>
+        <option value="php">php</option>
+        <option value="mysql">MySql</option>
       </select>
-      <button
-        type="button"
-        className="mt-1 btn btn-danger btn-sm"
-        style={{ float: "right" }}
-      >
-        Status - Running
+      <button type="button" className={statusClass} style={{ float: "right" }}>
+        Status - {status}
       </button>
       <button
         type="button"

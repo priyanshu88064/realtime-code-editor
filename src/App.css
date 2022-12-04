@@ -17,13 +17,17 @@ html,body {
     display: flex;
     flex-direction: column;
 
-    /* background-color: gold; */
-    height: 100%;
     overflow: hidden;
+
+    width: 85%;
+    height: 85%;
+    align-self: center;
+    background-color: rgb(239, 239, 239);
+    border-radius: 5px;
+    border: 1px solid rgb(169, 166, 166);
 }
 
 .HeadBar{
-    /* background-color: aqua; */
     margin-top: 2px;
     margin-bottom: 2px;
     font-size: 13px;
@@ -31,9 +35,7 @@ html,body {
 .editor{
     display: flex;
     justify-content: space-between;
-
     overflow: hidden;
-
     height: 100%;
 }
 .maineditor{
@@ -138,14 +140,6 @@ li a:hover {
     flex-direction: column;
     height: 100%;
 }
-.controller{
-    width: 75%;
-    height: 85%;
-    align-self: center;
-    background-color: rgb(239, 239, 239);
-    border-radius: 5px;
-    border: 1px solid rgb(169, 166, 166);
-}
 .chota-wrapper{
     display: flex;
     justify-content: space-around;
@@ -155,13 +149,14 @@ li a:hover {
 }
 .active-users{
     margin-top: 3%;
-    font-size: 16px;
-    width: 10%;
-    height: 40%;
+    font-size: 13px;
+    width: 7%;
+    height: 85%;
     border:1px solid black;
-    overflow: hidden;
     font-weight: 600;
     border-radius: 5px;
+    background-color: rgb(214, 214, 214);
+    overflow: hidden;
 }
 .user-box-header{
     /* background-color: rgb(158, 157, 155); */
@@ -175,17 +170,29 @@ li a:hover {
     overflow-y: hidden;
     overflow-x: hidden;
     height: 100%;
+    width: 100%;
     margin-top: 5px;
+}
+.total-name{
+    margin:5px 0;
+}
+.active-box{
+    color: white;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    background-color: rgb(22, 159, 22);
+    text-transform: capitalize;
+    margin: auto;
+    padding-top: 8px;
 }
 .user-name{
     font-weight: 400;
     font-size: 13px;
-    background-color: lightgreen;
-    margin: 1px 2px;
     border-radius: 1px;
 }
 .user-name:hover{
-    background-color: rgb(117, 213, 117);
+    background-color: rgb(247, 247, 247);
 }
 .sec{
     text-align: center;

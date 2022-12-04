@@ -1,6 +1,4 @@
 import React from "react";
-import { v4 as rand } from "uuid";
-import { Link } from "react-router-dom";
 import CreateRoom from "./CreateRoom";
 import EnterRoom from "./EnterRoom";
 

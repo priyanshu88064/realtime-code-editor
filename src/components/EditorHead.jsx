@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Controller from "./Controller";
 import ActiveUsers from "./ActiveUsers";
 import NameBar from "./NameBar";

@@ -13,20 +13,26 @@ function Editor({
   setInputData,
   inputData,
   roomId,
+  outData,
 }) {
-  if (editorData == null) {
+  if (editorData === null) {
     editorData = "";
   }
+  let valueC = "";
+  if (outData !== null) valueC = outData;
+  else if (inputData !== null) valueC = inputData;
+  else valueC = editorData;
+
   return (
     <CodeMirror
       className={classN}
-      style={{ fontSize: "13px" }}
-      value={setEditorData !== null ? editorData : inputData}
+      style={{ fontSize: "15px" }}
+      value={valueC}
       theme={themes}
       extensions={[loadLanguage(lang)]}
       height="100%"
       readOnly={readOnly}
-      onChange={(value) => {
+      onChange={(value, inst) => {
         if (setEditorData !== null && editorData !== value) {
           setEditorData(value);
           socket.current.emit("codechange", value, roomId);
