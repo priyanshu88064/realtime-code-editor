@@ -9,7 +9,6 @@ import { ReactNotifications } from "react-notifications-component";
 
 function App() {
   const [userName, setUserName] = useState(localStorage.getItem("name") ?? "");
-  console.log(process.env.NODE_ENV);
   useEffect(() => {
     localStorage.setItem("name", userName);
   }, [userName]);
