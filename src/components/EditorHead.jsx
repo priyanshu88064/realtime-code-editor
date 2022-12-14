@@ -8,7 +8,7 @@ function EditorHead({ userName }) {
 
   return (
     <>
-      <NameBar />
+      <NameBar allUsers={allUsers} />
       <div className="chota-wrapper">
         <ActiveUsers allUsers={allUsers} />
         <Controller userName={userName} setAllUsers={setAllUsers} />

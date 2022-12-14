@@ -2,7 +2,7 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import Notify from "./notification";
 
-function NameBar() {
+function NameBar({ allUsers }) {
   const { roomId } = useParams();
 
   function copy() {
@@ -12,7 +12,7 @@ function NameBar() {
 
   return (
     <div className="NameBar">
-      <span>Priyanshu's Room</span>
+      <span>{[...allUsers].at(0)}'s Room</span>
       <button className="btn btn-primary custom-btn" onClick={copy}>
         Copy Room Link
       </button>
